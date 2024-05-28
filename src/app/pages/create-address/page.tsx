@@ -9,6 +9,7 @@ export default function CadastroEndereco() {
   const [nomeFabrica, setNomeFabrica] = useState("");
   const [valorProduto, setValorProduto] = useState("");
   const [nomeProduto, setNomeProduto] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const addProduto = useStore((state) => state.addProduto);
 
   const generateUniqueId = () => {
@@ -20,6 +21,11 @@ export default function CadastroEndereco() {
     const id = generateUniqueId();
     const novoProduto = { id, lote, nomeFabrica, valorProduto, nomeProduto };
     addProduto(novoProduto);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -30,7 +36,7 @@ export default function CadastroEndereco() {
       }}
     >
       <div className="max-w-md mx-auto p-4 bg-gray-800 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold mb-4">Cadastro de Endereço</h1>
+        <h1 className="text-2xl font-bold mb-4">Cadastrar Produto</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="lote" className="block text-white">
@@ -99,6 +105,20 @@ export default function CadastroEndereco() {
           Ver Produtos
         </Link>
       </div>
+
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-white p-6 rounded shadow-lg text-center">
+            <h2 className="text-2xl text-black mb-4">Produto cadastrado</h2>
+            <Button
+              onClick={handleCloseModal}
+              className="bg-indigo-500 text-white p-2 rounded hover:bg-indigo-700"
+            >
+              Fechar
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
